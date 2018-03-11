@@ -27,12 +27,15 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Building..'
+                echo 'Building Docker Image..'
+                sh 'docker build --rm -f Dockerfile -t react-node-example:latest .'
+                echo 'docker image building is done'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Running Docker Container from the image created...'
+                sh 'docker run -d -p 3000:8080 --name react-node-example react-node-example'
             }
         }
         stage('Deploy') {
